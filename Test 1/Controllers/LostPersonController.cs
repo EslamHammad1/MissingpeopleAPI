@@ -6,7 +6,7 @@ namespace Test_1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class LostPersonController : ControllerBase
     {
         private new List<string> allwoedExtentions = new List<string> { ".jpg , .png" }; // new
@@ -41,6 +41,8 @@ namespace Test_1.Controllers
         {
             if (ModelState.IsValid == true)
             {
+                if (lDTO.Image == null)
+                    return BadRequest("Image is Required !");
                 if (lDTO.Image.Length > MaxallwoedImageSize)
                     return BadRequest("Max allowed size for image is 5MB! ");
                 using var dataStreem = new MemoryStream();
@@ -61,6 +63,37 @@ namespace Test_1.Controllers
                 await _context.AddAsync(LostPerson);
                 _context.SaveChanges();
                 return Ok(LostPerson);
+            }
+            return BadRequest(ModelState);
+        }
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdatePerson(int id, [FromForm]  LostPersonWithUserDTO lNewDTO)
+        {
+            if (ModelState.IsValid == true)
+            {
+
+                LostPerson? oldPrs = await _context.lostPersons.FindAsync(id);
+                if (oldPrs == null)
+                    return NotFound($"Not Found{id}");
+                if (lNewDTO.Image != null)
+                {
+                    if (lNewDTO.Image.Length > MaxallwoedImageSize)
+                        return BadRequest("Max allowed size for image is 10 MB! ");
+                    using var dataStreem = new MemoryStream();
+                    await lNewDTO.Image.CopyToAsync(dataStreem);
+                    oldPrs.Image = dataStreem.ToArray();
+                }
+
+                oldPrs.Name = lNewDTO.Name;
+                oldPrs.Gender = lNewDTO.Gender;
+                oldPrs.Address_City = lNewDTO.Address_City;
+                oldPrs.Age = lNewDTO.Age;
+                oldPrs.Date = lNewDTO.Date;
+                oldPrs.LostCity = lNewDTO.LostCity;
+                oldPrs.PersonWhoLost = lNewDTO.PersonWhoLost;
+                oldPrs.PhonePersonWhoLost = lNewDTO.PhonePersonWhoLost;
+                _context.SaveChanges();
+                return Ok(lNewDTO) ;
             }
             return BadRequest(ModelState);
         }

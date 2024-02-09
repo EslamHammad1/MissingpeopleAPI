@@ -12,7 +12,8 @@
         [Compare("Password")]
         [DataType(DataType.Password)]
         public string PasswordConfirmed { get; set; } = string.Empty;
-        [EmailAddress]
+    //    [EmailAddress]
+        [AllowNull]
         public string Email { get; set; } = string.Empty;
 
     }

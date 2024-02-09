@@ -13,7 +13,7 @@ namespace Test_1.Controllers
     public class FoundPersonController : ControllerBase
     {
         private new List<string> allwoedExtentions = new List<string> { ".jpg , .png" }; // new
-        private long MaxallwoedImageSize = 5242880; // new
+        private long MaxallwoedImageSize = 10485760; // new
         private readonly MissingPersonEntity _context;
         public FoundPersonController(MissingPersonEntity context)
         {
@@ -43,8 +43,10 @@ namespace Test_1.Controllers
         {
             if (ModelState.IsValid == true)
             {
+                if (fDTO.Image == null)
+                    return BadRequest("Image is Required !");
                 if (fDTO.Image.Length > MaxallwoedImageSize)
-                    return BadRequest("Max allowed size for image is 5MB! ");
+                    return BadRequest("Max allowed size for image is 10 MB! ");
                 using var dataStreem = new MemoryStream();
                 await fDTO.Image.CopyToAsync(dataStreem);
                 var FoundPerson = new FoundPerson
@@ -66,28 +68,37 @@ namespace Test_1.Controllers
             }
             return BadRequest(ModelState);
         }
-        //[HttpPut("{id:int}")]
-        //public IActionResult Update(int id, [FromForm] FoundPersonWithUserDTO fNewDTO)
-        //{
-        //    if (ModelState.IsValid == true)
-        //    {
-        //        FoundPerson? oldPrs =_context.foundPersons.FirstOrDefault(m => m.Id == id);
-        //        if (oldPrs != null)
-        //        {
-        //            oldPrs.Name = fNewDTO.Name;
-        //            oldPrs.Gender = fNewDTO.Gender;
-        //            oldPrs.Address_City = fNewDTO.Address_City;
-        //            oldPrs.Age = fNewDTO.Age;
-        //            oldPrs.Date = fNewDTO.Date;
-        //            oldPrs.FoundCity = fNewDTO.FoundCity;
-        //            oldPrs.Image = fNewDTO.Image;
-        //            _context.SaveChanges();
-        //            return StatusCode(204, fNewDTO);
-        //        }
-        //        return BadRequest("ID Not Valid");
-        //    }
-        //    return BadRequest(ModelState);
-        //}
+        [HttpPut("{id:int}")]
+       public async Task<IActionResult> Update(int id, [FromForm] FoundPersonWithUserDTO fNewDTO)
+       {
+           if (ModelState.IsValid == true)
+           {
+
+               FoundPerson? oldPrs =await _context.foundPersons.FindAsync(id);
+               if (oldPrs == null)
+                    return NotFound($"Not Found{id}");
+                if (fNewDTO.Image != null)
+                {
+                    if (fNewDTO.Image.Length > MaxallwoedImageSize)
+                        return BadRequest("Max allowed size for image is 10 MB! ");
+                    using var dataStreem = new MemoryStream();
+                    await fNewDTO.Image.CopyToAsync(dataStreem);
+                    oldPrs.Image = dataStreem.ToArray();
+                }
+
+                   oldPrs.Name = fNewDTO.Name;
+                   oldPrs.Gender = fNewDTO.Gender;
+                   oldPrs.Address_City = fNewDTO.Address_City;
+                   oldPrs.Age = fNewDTO.Age;
+                   oldPrs.Date = fNewDTO.Date;
+                   oldPrs.FoundCity = fNewDTO.FoundCity;
+                   oldPrs.PersonWhoFoundhim = fNewDTO.PersonWhoFoundhim;
+                   oldPrs.PhonePersonWhoFoundhim = fNewDTO.PhonePersonWhoFoundhim;
+                   _context.SaveChanges();
+                   return Ok(fNewDTO);
+           }
+           return BadRequest(ModelState);
+       }
 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)

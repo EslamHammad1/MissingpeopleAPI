@@ -9,7 +9,7 @@
         public DateTime Date { get; set; }
         public string FoundCity { get; set; } = string.Empty;
         public string Address_City { get; set; } = string.Empty;
-        public IFormFile Image { get; set; } 
+        public IFormFile? Image { get; set; } 
         public string PersonWhoFoundhim { get; set; } = string.Empty;
         public string PhonePersonWhoFoundhim { get; set; } = string.Empty;
     }

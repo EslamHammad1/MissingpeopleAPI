@@ -23,7 +23,7 @@
 
                 if (ModelState.IsValid)
                 {
-                    user.UserName = userDto.Name;
+                    user.UserName = userDto.UserName;
                     user.Email = userDto.Email;
                     IdentityResult result = await userManager.CreateAsync(user, userDto.Password);
                     if (result.Succeeded)
