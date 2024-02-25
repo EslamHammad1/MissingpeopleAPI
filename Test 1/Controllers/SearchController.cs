@@ -12,7 +12,7 @@ namespace Test_1.Controllers
         {
             _context = context;
         }
-        [HttpPost("SearchByNameForLost")]
+        [HttpGet("SearchByNameForLost")]
         public IActionResult SearchByNameForLost([FromQuery] SearchNameDTO searchDTO)
         {
             IQueryable<LostPerson> query = _context.lostPersons.AsQueryable();
@@ -26,7 +26,7 @@ namespace Test_1.Controllers
 
             return Ok(results);
         }
-        [HttpPost("SearchByCityForLost")]
+        [HttpGet("SearchByCityForLost")]
         public IActionResult SearchByCityForLost([FromQuery] SearchCityDTO searchDTO)
         {
             IQueryable<LostPerson> query = _context.lostPersons.AsQueryable();
@@ -41,7 +41,7 @@ namespace Test_1.Controllers
 
             return Ok(results);
         }
-        [HttpPost("SearchByNameForFound")]
+        [HttpGet("SearchByNameForFound")]
         public IActionResult SearchByNameForFound([FromQuery] SearchNameDTO searchDTO)
         {
             IQueryable<FoundPerson> query = _context.foundPersons.AsQueryable();
@@ -55,7 +55,7 @@ namespace Test_1.Controllers
 
             return Ok(results);
         }
-        [HttpPost("SearchByCityForFound")]
+        [HttpGet("SearchByCityForFound")]
         public IActionResult SearchByCityForFound([FromQuery] SearchCityDTO searchDTO)
         {
             IQueryable<FoundPerson> query = _context.foundPersons.AsQueryable();
