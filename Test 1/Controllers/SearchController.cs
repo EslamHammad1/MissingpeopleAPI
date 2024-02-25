@@ -12,24 +12,22 @@ namespace Test_1.Controllers
         {
             _context = context;
         }
-        [HttpPost("SearchByName")]
-        public IActionResult SearchByName([FromQuery] SearchNameDTO searchDTO)
+        [HttpPost("SearchByNameForLost")]
+        public IActionResult SearchByNameForLost([FromQuery] SearchNameDTO searchDTO)
         {
             IQueryable<LostPerson> query = _context.lostPersons.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchDTO.Name))
             {
-                query = query.Where(p => p.Name.Contains(searchDTO.Name));
+                query = query.Where(p => p.Name.StartsWith(searchDTO.Name));
             }
-
-         
 
             var results = query.ToList();
 
             return Ok(results);
         }
-        [HttpPost("SearchByCity")]
-        public IActionResult SearchByCity([FromQuery] SearchCityDTO searchDTO)
+        [HttpPost("SearchByCityForLost")]
+        public IActionResult SearchByCityForLost([FromQuery] SearchCityDTO searchDTO)
         {
             IQueryable<LostPerson> query = _context.lostPersons.AsQueryable();
 
@@ -40,6 +38,35 @@ namespace Test_1.Controllers
 
             var results = query.ToList();
             
+
+            return Ok(results);
+        }
+        [HttpPost("SearchByNameForFound")]
+        public IActionResult SearchByNameForFound([FromQuery] SearchNameDTO searchDTO)
+        {
+            IQueryable<FoundPerson> query = _context.foundPersons.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchDTO.Name))
+            {
+                query = query.Where(p => p.Name.StartsWith(searchDTO.Name));
+            }
+
+            var results = query.ToList();
+
+            return Ok(results);
+        }
+        [HttpPost("SearchByCityForFound")]
+        public IActionResult SearchByCityForFound([FromQuery] SearchCityDTO searchDTO)
+        {
+            IQueryable<FoundPerson> query = _context.foundPersons.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchDTO.Address_City))
+            {
+                query = query.Where(p => p.Address_City.Contains(searchDTO.Address_City));
+            }
+
+            var results = query.ToList();
+
 
             return Ok(results);
         }

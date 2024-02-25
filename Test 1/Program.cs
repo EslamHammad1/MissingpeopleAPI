@@ -49,6 +49,15 @@ builder.Services.AddAuthentication(options =>
         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
     };
 });
+//new
+//builder.Services.AddAuthentication().AddGoogle(options =>
+//{
+//    IConfiguration googleauth = builder.Configuration.GetSection("Authentication:Google");
+//    options.ClientId = googleauth["ClientId"];
+//    options.ClientSecret = googleauth["ClientSecret"];
+
+//});
+
 /// swagger buttom 
 builder.Services.AddSwaggerGen(Options =>
 {

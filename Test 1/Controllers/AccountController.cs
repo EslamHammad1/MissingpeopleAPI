@@ -1,4 +1,7 @@
-﻿namespace Test_1.Controllers
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+
+namespace Test_1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -88,5 +91,52 @@
                     }
                     return Unauthorized();
                 }
+        // ExternalLoginController.cs
+
+
+        //[HttpGet("login/google")]
+        //public IActionResult LoginWithGoogle()
+        //{
+        //    var properties = new AuthenticationProperties
+        //    {
+        //        RedirectUri = "/signin-google"
+        //    };
+        //    return Challenge(properties, "Google");
+        //}
+
+        //[HttpGet("login/facebook")]
+        //public IActionResult LoginWithFacebook()
+        //{
+        //    var properties = new AuthenticationProperties
+        //    {
+        //        RedirectUri = "/signin-facebook"
+        //    };
+        //    return Challenge(properties, "Facebook");
+        //}
+
+        //[HttpGet("signin-google")]
+        //public async Task<IActionResult> SignInWithGoogle()
+        //{
+        //    var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        //    // Get access token from authenticateResult.Properties
+
+        //    // Use the access token to authenticate the user in your API
+
+        //    return Ok("User authenticated with Google");
+        //}
+
+        //[HttpGet("signin-facebook")]
+        //public async Task<IActionResult> SignInWithFacebook()
+        //{
+        //    var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        //    // Get access token from authenticateResult.Properties
+
+        //    // Use the access token to authenticate the user in your API
+
+        //    return Ok("User authenticated with Facebook");
+        //}
     }
+
 }
