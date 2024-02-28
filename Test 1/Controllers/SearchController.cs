@@ -23,7 +23,6 @@ namespace Test_1.Controllers
             }
 
             var results = query.ToList();
-
             return Ok(results);
         }
         [HttpGet("SearchByCityForLost")]
@@ -37,8 +36,6 @@ namespace Test_1.Controllers
             }
 
             var results = query.ToList();
-            
-
             return Ok(results);
         }
         [HttpGet("SearchByNameForFound")]
@@ -52,7 +49,6 @@ namespace Test_1.Controllers
             }
 
             var results = query.ToList();
-
             return Ok(results);
         }
         [HttpGet("SearchByCityForFound")]
@@ -66,8 +62,6 @@ namespace Test_1.Controllers
             }
 
             var results = query.ToList();
-
-
             return Ok(results);
         }
     }

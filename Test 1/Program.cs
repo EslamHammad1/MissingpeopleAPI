@@ -17,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+/*
 builder.Services.AddCors(crosOptions =>
 {
     crosOptions.AddPolicy("MyPolicy", CorsPolicyBuilder =>
@@ -24,6 +25,7 @@ builder.Services.AddCors(crosOptions =>
         CorsPolicyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
+*/
 builder.Services.AddDbContext<MissingPersonEntity>(options =>
 {
     options.UseSqlServer("Data Source =(localdb)\\ProjectModels; Initial Catalog = MissingpersonLast ; Integrated Security =True ; Trusted_Connection=True ; Encrypt = False");
@@ -49,6 +51,8 @@ builder.Services.AddAuthentication(options =>
         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
     };
 });
+// todo: add login with google and facebook
+// todo: add multi language
 //new
 //builder.Services.AddAuthentication().AddGoogle(options =>
 //{
@@ -114,7 +118,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-app.UseCors("MyPolicy");
+//app.UseCors("MyPolicy");
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
